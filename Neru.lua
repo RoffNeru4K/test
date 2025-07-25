@@ -285,7 +285,7 @@ local function validateKey(key)
     end
 
     local success, status = pcall(function()
-        return api.check_key(key)
+        return validateKey(key)
     end)
 
     if not success then
@@ -332,7 +332,7 @@ local function main()
     
 
     local success, status = pcall(function()
-        return api.check_key(keyContent)
+        return validateKey(keyContent)
     end)
     
 
@@ -843,7 +843,7 @@ CheckButton.MouseButton1Click:Connect(function()
     StatusLabel.TextColor3 = Color3.fromRGB(255, 255, 255) 
     
     local success, status = pcall(function()
-        return api.check_key(keyText)
+        return validateKey(keyText)
     end)
     
     if not success then
