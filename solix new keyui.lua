@@ -260,28 +260,38 @@ local function executeScript(key)
 end
 
 
+local BYPASS_VALIDATION = true
+
 local function validateKey(key)
+    if BYPASS_VALIDATION then
+        local dummyStatus = {
+            code = "KEY_VALID",
+            message = "Bypassed validation - all keys accepted"
+        }
+        return true, dummyStatus
+    end
+
     if not key or key == "" then
         return false, "KEY_NOT_FOUND"
     end
-    
+
     if not isGameSupported() then
         return false, "GAME_NOT_SUPPORTED"
     end
-    
+
     local api = initLuarmorAPI()
     if not api then
         return false, "API_INIT_FAILED"
     end
-    
+
     local success, status = pcall(function()
         return api.check_key(key)
     end)
-    
+
     if not success then
         return false, "API_CALL_FAILED"
     end
-    
+
     if status.code == "KEY_VALID" then
         return true, status
     else
